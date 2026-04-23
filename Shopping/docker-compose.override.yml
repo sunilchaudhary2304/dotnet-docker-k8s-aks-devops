@@ -1,0 +1,40 @@
+services:
+  shopping.api:
+    container_name: shoppingapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - "DatabaseSettings:ConnectionString=mongodb://shoppingdb:27017"
+    depends_on:
+      - shopping.db
+    ports:
+      - "8000:80"
+    # Prevent Visual Studio from bind-mounting the local project folder during docker debug
+    # which can cause Visual Studio to attempt copying local build outputs and fail.
+    volumes: []
+
+  shopping.client:
+    container_name: shoppingclient
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - "ShoppingAPIUrl=http://shoppingapi"
+    depends_on:
+      - shopping.db
+      - shopping.api
+    ports:
+      - "8001:80"
+    # Prevent Visual Studio from bind-mounting the local project folder during docker debug
+    volumes: []
+
+  shopping.db:
+    container_name: shoppingdb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - shopping_db_data:/data/db
+
+volumes:
+  shopping_db_data:
+      
