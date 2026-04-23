@@ -23,6 +23,8 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
+            - name: ASPNETCORE_URLS
+              value: http://+:80
             - name: ShoppingAPIUrl
               valueFrom:
                   configMapKeyRef:
@@ -47,5 +49,5 @@ spec:
   ports:
     - protocol: TCP
       port: 8001
-      targetPort: 8080
+      targetPort: 80
       nodePort: 30000

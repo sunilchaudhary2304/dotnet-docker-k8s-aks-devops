@@ -1,0 +1,13 @@
+[Unit]
+Description=Kubernetes port-forward for shopping services (user)
+After=network.target
+
+[Service]
+Type=simple
+# Edit ExecStart to the absolute path to the installed script in your repo
+ExecStart=/usr/bin/env bash __REPO_PATH__/scripts/portforward-linux.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
