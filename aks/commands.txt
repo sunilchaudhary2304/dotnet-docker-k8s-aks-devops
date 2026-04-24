@@ -34,6 +34,9 @@ az login
 Create a resource group
 az group create --name myResourceGroup --location westeurope
 --
+  ACR:
+  az provider register --namespace Microsoft.ContainerRegistry
+--
 Create an Azure Container Registry
 az acr create --resource-group myResourceGroup --name shoppingacr --sku Basic
 --
@@ -76,8 +79,12 @@ az acr repository show-tags --name shoppingacr --repository shoppingclient --out
 Result
 v1
 --
+AKS:
+az provider register --namespace Microsoft.ContainerService
+--
 Create AKS cluster with attaching ACR
 az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 1 --generate-ssh-keys --attach-acr shoppingacr
+az aks create --resource-group sweenilRG --name sweenilAKSCluster --node-count 1 --generate-ssh-keys --vm-set-type VirtualMachineScaleSets --node-vm-size Standard_D128ads_v7 --attach-acr sweenilacr
 
 --
 Install the Kubernetes CLI
@@ -97,6 +104,10 @@ kubectl config current-context
 kubectl config use-context gcpcluster-k8s-1
 	Switched to context "gcpcluster-k8s-1"
 --
+kubectl create secret docker-registry acr-secret --docker-server=sweenilacr.azurecr.io --docker-username=sweenilacr --docker-password=<password> --docker-email=<email>
+kubectl get secret
+--
+
 Deploy microservices to AKS
 
 kubectl apply -f .\aks\

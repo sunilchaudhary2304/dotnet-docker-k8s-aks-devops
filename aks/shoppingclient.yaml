@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: shoppingclient
-          image: sweenilshoppingacr.azurecr.io/shoppingclient:v2
+          image: sweenilacr.azurecr.io/shoppingclient:v2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
