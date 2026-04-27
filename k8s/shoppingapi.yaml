@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: shoppingapi
-          image: sweenil7/shoppingapi:latest
+          image: sweenil/shoppingapi:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

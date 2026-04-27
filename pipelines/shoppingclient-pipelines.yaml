@@ -19,10 +19,10 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '6f03a1fe-99d3-46ce-8784-2af013c77f8d'
   imageRepository: 'shoppingclient'
-  containerRegistry: 'sweenilshoppingacr.azurecr.io'
+  containerRegistry: 'sweenilacr.azurecr.io'
   dockerfilePath: 'Shopping/Shopping.Client/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'sweenilshoppingacr1082c6f5-auth'
+  imagePullSecret: 'sweenilacr1082c6f5-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'

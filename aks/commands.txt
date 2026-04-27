@@ -30,15 +30,25 @@ az version
 }
 --
 az login
+az login --tenant TENANT_ID
 --
 Create a resource group
 az group create --name myResourceGroup --location westeurope
 --
   ACR:
+  az account show
+# if needed:
+  az account set --subscription "<SUBSCRIPTION_ID_OR_NAME>"
+
   az provider register --namespace Microsoft.ContainerRegistry
+
+  az provider show --namespace Microsoft.ContainerRegistry --query "registrationState" -o tsv
+
 --
 Create an Azure Container Registry
 az acr create --resource-group myResourceGroup --name shoppingacr --sku Basic
+
+az account show --query "{name:name, id:id, tenantId:tenantId}"
 --
 Enable Admin Account for ACR Pull
 az acr update -n shoppingacr --admin-enabled true
@@ -112,6 +122,24 @@ Deploy microservices to AKS
 
 kubectl apply -f .\aks\
 --
+
+Testing on External IP:
+kubectl set env deployment/shoppingapi-deployment ASPNETCORE_URLS="http://+:80"
+kubectl rollout restart deployment/shoppingapi-deployment
+kubectl rollout status deployment/shoppingapi-deployment
+kubectl logs -l app=shoppingapi --tail=100
+# expect "Now listening on: http://[::]:80"
+kubectl run -it --rm debug --image=radial/busyboxplus:curl --restart=Never -- /bin/sh
+# inside:
+curl -v http://shoppingapi-service:80/
+curl -v http://10.0.32.215:80/   # service ClusterIP
+
+# from cluster debug pod
+curl -v http://10.0.192.33:80/   # shoppingclient service
+# from your machine
+curl -v http://13.89.110.203/
+
+
 Clean All AKS and Azure Resources
 
 az group delete --name myResourceGroup --yes --no-wait
