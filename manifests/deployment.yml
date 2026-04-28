@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: sunilchaudharydotnetdockerksaksdevops 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sunilchaudharydotnetdockerksaksdevops
+  template:
+    metadata:
+      labels:
+        app: sunilchaudharydotnetdockerksaksdevops 
+    spec:
+      containers:
+        - name: sunilchaudharydotnetdockerksaksdevops 
+          image: sweenilacr.azurecr.io/sunilchaudharydotnetdockerksaksdevops
+          ports:
+          - containerPort: 80
